@@ -76,3 +76,31 @@ aws_access_key_id=
 aws_secret_access_key=
 
 ```
+
+```
+
+from pytube import YouTube
+
+def show_progress(stream, chunk, bytes_remaining):
+    total_size = stream.filesize
+    bytes_downloaded = total_size - bytes_remaining
+    percentage_of_completion = bytes_downloaded / total_size * 100
+    print(f'Downloading... {percentage_of_completion:.2f}%', end='\r')
+
+def download_video(url, path):
+    try:
+        yt = YouTube(url, on_progress_callback=show_progress)
+        video = yt.streams.get_highest_resolution()
+        video.download(path)
+        print(f"\nDownloaded: {video.title}")
+    except Exception as e:
+        print(f"Error: {e}")
+
+video_url = 'https://www.youtube.com/watch?v=JChPi0CRnDY&list=PLfaIDFEXuae2LXbO1_PKyVJiQ23ZztA0x&index=5'
+
+
+save_path = '/Users/chris/Downloads'
+#
+download_video(video_url, save_path)
+
+```
